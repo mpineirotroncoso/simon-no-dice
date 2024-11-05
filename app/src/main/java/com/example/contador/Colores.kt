@@ -1,8 +1,10 @@
 package com.example.contador
 
-enum class Colores(val color: Int) {
-    ROJO(1),
-    VERDE(2),
-    AZUL(3),
-    AMARILLO(4)
+import androidx.compose.ui.graphics.Color
+
+enum class Colores(val color: Int, val colorname: Color) {
+    ROJO(1, Color.Red),
+    VERDE(2, Color.Green),
+    AZUL(3, Color.Blue),
+    AMARILLO(4, Color.Yellow)
 }

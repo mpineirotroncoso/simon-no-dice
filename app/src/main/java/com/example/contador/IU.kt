@@ -1,3 +1,4 @@
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -66,103 +67,41 @@ fun IU(model: ModelView) {
 
 
             Row {
-                TextButton(
-                    onClick = {
-                        color.value = Color.Red
-                        if (model.compararNumero(Colores.ROJO.color))
-                            Toast.makeText(context, "Win", Toast.LENGTH_SHORT).show()
-                        else {
-                            Toast.makeText(context, "Lose", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    shape = RoundedCornerShape(
-                        topStart = 5.dp,
-                        topEnd = 5.dp,
-                        bottomEnd = 50.dp,
-                        bottomStart = 5.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(Color.Red),
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp)
-                        .padding(5.dp)
-                ) {
-                    Text("ROJO")
-                }
-                TextButton(
-                    onClick = {
-                        color.value = Color.Green
-                        if (model.compararNumero(Colores.VERDE.color)) {
-                            Toast.makeText(context, "Win", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "Lose", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    shape = RoundedCornerShape(
-                        topStart = 5.dp,
-                        topEnd = 5.dp,
-                        bottomEnd = 5.dp,
-                        bottomStart = 50.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(Color.Green),
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp)
-                        .padding(5.dp)
-                ) {
-                    Text("VERDE")
-                }
+                Boton(model = model, color = Colores.ROJO, context = context)
+                Boton(model = model, color = Colores.VERDE, context = context)
             }
             Row {
-                TextButton(
-                    onClick = {
-                        color.value = Color.Blue
-                        if (model.compararNumero(Colores.AZUL.color)) {
-                            Toast.makeText(context, "Win", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "Lose", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    shape = RoundedCornerShape(
-                        topStart = 5.dp,
-                        topEnd = 50.dp,
-                        bottomEnd = 5.dp,
-                        bottomStart = 5.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(Color.Blue),
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp)
-                        .padding(5.dp)
-                ) {
-                    Text("AZUL")
-                }
-                TextButton(
-                    onClick = {
-                        color.value = Color.Yellow
-                        if (model.compararNumero(Colores.AMARILLO.color))
-                            Toast.makeText(context, "Win", Toast.LENGTH_SHORT).show()
-                        else {
-                            Toast.makeText(context, "Lose", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                    shape = RoundedCornerShape(
-                        topStart = 50.dp,
-                        topEnd = 5.dp,
-                        bottomEnd = 5.dp,
-                        bottomStart = 5.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(Color.Yellow),
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp)
-                        .padding(5.dp)
-                ) {
-                    Text("AMARILLO")
-                }
+                Boton(model = model, color = Colores.AZUL, context = context)
+                Boton(model = model, color = Colores.AMARILLO, context = context)
             }
 
         }
 
+    }
+}
+
+@Composable
+fun Boton (model: ModelView, color: Colores, context: Context) {
+    TextButton(
+        onClick = {
+            if (model.compararNumero(color.color)) {
+                Toast.makeText(context, "Win", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Lose", Toast.LENGTH_SHORT).show()
+            }
+        },
+        shape = RoundedCornerShape(
+            topStart = 5.dp,
+            topEnd = 50.dp,
+            bottomEnd = 5.dp,
+            bottomStart = 5.dp
+        ),
+        colors = ButtonDefaults.buttonColors(color.colorname),
+        modifier = Modifier
+            .width(150.dp)
+            .height(150.dp)
+            .padding(5.dp)
+    ) {
+        Text("$color")
     }
 }
