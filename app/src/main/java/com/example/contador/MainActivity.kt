@@ -1,5 +1,6 @@
 package com.example.contador
 
+import IU
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -38,10 +39,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
         val miViewModel = ModelView()
-
-
         setContent {
             ContadorTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -51,158 +49,12 @@ class MainActivity : ComponentActivity() {
                             .background(MaterialTheme.colorScheme.background)
                             .padding(innerPadding)
                     ) {
-                        Greeting(
-                            name = "Android",
-                            modifier = Modifier.padding(innerPadding),
-                            miViewModel
-                        )
+                        IU(miViewModel)
+
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier, modelView: ModelView) {
-
-    val context = LocalContext.current
-    val color = remember {
-        mutableStateOf(Color.White)
-    }
-    var numeroRandom by remember { mutableStateOf(modelView.getNumero()) }
-    var record by remember { mutableStateOf(0) }
-    var puntuacion by remember { mutableStateOf(0) }
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column (modifier = Modifier.align(Alignment.Center)) {
-            Text("Record $record",
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .width(300.dp)
-                    .height(100.dp)
-                    .padding(bottom = 16.dp)
-            )
-            Text("Puntuacion $puntuacion",
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .width(300.dp)
-                    .height(100.dp)
-                    .padding(bottom = 16.dp)
-            )
-            Button(onClick = {
-                modelView.crearRandom()
-            },
-                colors = ButtonDefaults.buttonColors(color.value),
-                shape = RoundedCornerShape(5.dp),
-                modifier = Modifier
-                    .width(300.dp)
-                    .height(100.dp)
-                    .padding(bottom = 16.dp)
-            ) {
-                Text(text = numeroRandom.toString())
-            }
-
-
-            Row {
-                TextButton(
-                    onClick = {
-                        color.value = Color.Red
-                        if (modelView.compararNumero(Colores.ROJO.color))
-                            Toast.makeText(context, "Win", Toast.LENGTH_SHORT).show()
-                        else {
-                            Toast.makeText(context, "Lose", Toast.LENGTH_SHORT).show()
-                        }
-                              },
-                    shape = RoundedCornerShape(
-                        topStart = 5.dp,
-                        topEnd = 5.dp,
-                        bottomEnd = 50.dp,
-                        bottomStart = 5.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(Color.Red),
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp)
-                        .padding(5.dp)
-                ) {
-                    Text("ROJO")
-                }
-                TextButton(
-                    onClick = {
-                        color.value = Color.Green
-                        if (modelView.compararNumero(Colores.VERDE.color)) {
-                            Toast.makeText(context, "Win", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "Lose", Toast.LENGTH_SHORT).show()
-                        }
-                              },
-                    shape = RoundedCornerShape(
-                        topStart = 5.dp,
-                        topEnd = 5.dp,
-                        bottomEnd = 5.dp,
-                        bottomStart = 50.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(Color.Green),
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp)
-                        .padding(5.dp)
-                ) {
-                    Text("VERDE")
-                }
-            }
-            Row {
-                TextButton(
-                    onClick = {
-                        color.value = Color.Blue
-                        if (modelView.compararNumero(Colores.AZUL.color)) {
-                            Toast.makeText(context, "Win", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context, "Lose", Toast.LENGTH_SHORT).show()
-                        }
-                              },
-                    shape = RoundedCornerShape(
-                        topStart = 5.dp,
-                        topEnd = 50.dp,
-                        bottomEnd = 5.dp,
-                        bottomStart = 5.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(Color.Blue),
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp)
-                        .padding(5.dp)
-                ) {
-                    Text("AZUL")
-                }
-                TextButton(
-                    onClick = {
-                        color.value = Color.Yellow
-                        if (modelView.compararNumero(Colores.AMARILLO.color))
-                            Toast.makeText(context, "Win", Toast.LENGTH_SHORT).show()
-                        else {
-                            Toast.makeText(context, "Lose", Toast.LENGTH_SHORT).show()
-                        }
-                              },
-                    shape = RoundedCornerShape(
-                        topStart = 50.dp,
-                        topEnd = 5.dp,
-                        bottomEnd = 5.dp,
-                        bottomStart = 5.dp
-                    ),
-                    colors = ButtonDefaults.buttonColors(Color.Yellow),
-                    modifier = Modifier
-                        .width(150.dp)
-                        .height(150.dp)
-                        .padding(5.dp)
-                ) {
-                    Text("AMARILLO")
-                }
-            }
-
-        }
-
     }
 }
 
