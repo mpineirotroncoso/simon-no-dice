@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.contador.Colores
@@ -52,19 +53,8 @@ fun IU(model: ModelView) {
                     .height(100.dp)
                     .padding(bottom = 16.dp)
             )
-            Button(onClick = {
-                model.crearRandom()
-            },
-                colors = ButtonDefaults.buttonColors(color.value),
-                shape = RoundedCornerShape(5.dp),
-                modifier = Modifier
-                    .width(300.dp)
-                    .height(100.dp)
-                    .padding(bottom = 16.dp)
-            ) {
-                Text(text = numeroRandom.toString())
-            }
 
+            Boton_start(model = model, context = context)
 
             Row {
                 Boton(model = model, color = Colores.ROJO, context = context)
@@ -82,7 +72,15 @@ fun IU(model: ModelView) {
 
 @Composable
 fun Boton (model: ModelView, color: Colores, context: Context, position: Int = 0) {
+
+    var _activo by remember { mutableStateOf(model.estadoLiveData.value!!.boton_activo) }
+
+    model.estadoLiveData.observe(LocalLifecycleOwner.current) {
+        _activo = model.estadoLiveData.value!!.boton_activo
+    }
+
     TextButton(
+        enabled = _activo,
         onClick = {
             if (model.compararNumero(color.color)) {
                 Toast.makeText(context, "Win", Toast.LENGTH_SHORT).show()
@@ -103,5 +101,28 @@ fun Boton (model: ModelView, color: Colores, context: Context, position: Int = 0
             .padding(5.dp)
     ) {
         Text("$color")
+    }
+}
+
+@Composable
+fun Boton_start(model: ModelView, context: Context) {
+    var _activo by remember { mutableStateOf(model.estadoLiveData.value!!.start_activo) }
+
+    model.estadoLiveData.observe(LocalLifecycleOwner.current) {
+        _activo = model.estadoLiveData.value!!.start_activo
+    }
+    Button(onClick = {
+        model.crearRandom()
+
+    },
+        enabled = _activo,
+        colors = ButtonDefaults.buttonColors(Color.White),
+        shape = RoundedCornerShape(5.dp),
+        modifier = Modifier
+            .width(300.dp)
+            .height(100.dp)
+            .padding(bottom = 16.dp)
+    ) {
+        Text("Start")
     }
 }
