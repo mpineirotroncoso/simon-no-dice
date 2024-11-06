@@ -81,7 +81,7 @@ fun IU(model: ModelView) {
 }
 
 @Composable
-fun Boton (model: ModelView, color: Colores, context: Context) {
+fun Boton (model: ModelView, color: Colores, context: Context, position: Int = 0) {
     TextButton(
         onClick = {
             if (model.compararNumero(color.color)) {
@@ -91,10 +91,10 @@ fun Boton (model: ModelView, color: Colores, context: Context) {
             }
         },
         shape = RoundedCornerShape(
-            topStart = 5.dp,
-            topEnd = 50.dp,
-            bottomEnd = 5.dp,
-            bottomStart = 5.dp
+            topStart = color.cornertopleft,
+            topEnd = color.cornertopright,
+            bottomEnd = color.cornerbottomright,
+            bottomStart = color.cornerbottomleft
         ),
         colors = ButtonDefaults.buttonColors(color.colorname),
         modifier = Modifier
