@@ -27,9 +27,9 @@ class ModelView : ViewModel() {
     fun compararNumero(numero: Int): Boolean {
         Log.d("ModelView", "comparamos numero $numero")
         if (numero == Datos.numero) {
-            estadoLiveData.value = Estados.INICIO
             Log.d("ModelView", "numero correcto")
             estadoLiveData.value = Estados.INICIO
+            increaseScore()
             return true
         } else {
             estadoLiveData.value = Estados.ADIVINANDO
@@ -40,5 +40,19 @@ class ModelView : ViewModel() {
 
     fun getNumero(): Int {
         return Datos.numero
+    }
+
+    fun increaseScore() {
+        Log.d("ModelView", "increaseScore")
+        Datos.score++
+    }
+
+    fun resetScore() {
+        Log.d("ModelView", "resetScore")
+        Datos.score = 0
+    }
+
+    fun getScore(): Int {
+        return Datos.score
     }
 }

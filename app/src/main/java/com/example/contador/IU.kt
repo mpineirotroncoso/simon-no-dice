@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,12 +31,9 @@ import com.example.contador.ModelView
 @Composable
 fun IU(model: ModelView) {
     val context = LocalContext.current
-    val color = remember {
-        mutableStateOf(Color.White)
-    }
-    var numeroRandom by remember { mutableStateOf(model.getNumero()) }
+
     var record by remember { mutableStateOf(0) }
-    var puntuacion by remember { mutableStateOf(0) }
+    var puntuacion by remember { mutableIntStateOf(model.getScore()) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column (modifier = Modifier.align(Alignment.Center)) {

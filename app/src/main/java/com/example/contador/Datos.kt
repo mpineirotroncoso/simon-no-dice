@@ -2,6 +2,7 @@ package com.example.contador
 
 object Datos {
     var numero = 0
+    var score = 0
 }
 
 enum class Estados(val start_activo: Boolean, val boton_activo: Boolean) {
