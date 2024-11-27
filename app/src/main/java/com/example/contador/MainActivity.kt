@@ -34,8 +34,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.contador.ui.theme.ContadorTheme
 
-
+/**
+ * Clase MainActivity que sirve como punto de entrada de la aplicación.
+ */
 class MainActivity : ComponentActivity() {
+    /**
+     * Se llama cuando la actividad está comenzando. Aquí es donde debe ir la mayor parte de la inicialización.
+     *
+     * @param savedInstanceState Si la actividad se está re-inicializando después de haber sido previamente cerrada, entonces este Bundle contiene los datos que más recientemente proporcionó en onSaveInstanceState(Bundle).
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -50,11 +57,9 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                     ) {
                         IU(miViewModel)
-
                     }
                 }
             }
         }
     }
 }
-

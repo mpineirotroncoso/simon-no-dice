@@ -31,6 +31,11 @@ import com.example.contador.Colores
 import com.example.contador.ModelView
 import kotlinx.coroutines.delay
 
+/**
+ * Función composable que define la interfaz de usuario de la aplicación.
+ *
+ * @param model La instancia de ViewModel que gestiona el estado y la lógica de la aplicación.
+ */
 @Composable
 fun IU(model: ModelView) {
     val context = LocalContext.current
@@ -39,7 +44,7 @@ fun IU(model: ModelView) {
     var puntuacion by remember { mutableIntStateOf(model.getScore()) }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Column (modifier = Modifier.align(Alignment.Center)) {
+        Column(modifier = Modifier.align(Alignment.Center)) {
             Text("Record $record",
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -65,14 +70,20 @@ fun IU(model: ModelView) {
                 Boton(model = model, color = Colores.AZUL, context = context)
                 Boton(model = model, color = Colores.AMARILLO, context = context)
             }
-
         }
-
     }
 }
 
+/**
+ * Función composable que define un botón con color y comportamiento específicos.
+ *
+ * @param model La instancia de ViewModel que gestiona el estado y la lógica de la aplicación.
+ * @param color Las propiedades de color para el botón.
+ * @param context El contexto en el que se usa el botón.
+ * @param position La posición del botón (por defecto es 0).
+ */
 @Composable
-fun Boton (model: ModelView, color: Colores, context: Context, position: Int = 0) {
+fun Boton(model: ModelView, color: Colores, context: Context, position: Int = 0) {
 
     var _activo by remember { mutableStateOf(model.estadoLiveData.value!!.boton_activo) }
 
@@ -105,19 +116,26 @@ fun Boton (model: ModelView, color: Colores, context: Context, position: Int = 0
     }
 }
 
+/**
+ * Función composable que define el botón de inicio con color y comportamiento específicos.
+ *
+ * @param model La instancia de ViewModel que gestiona el estado y la lógica de la aplicación.
+ * @param color Las propiedades de color para el botón.
+ * @param context El contexto en el que se usa el botón.
+ */
 @Composable
-fun Boton_start(model: ModelView, color: Colores , context: Context) {
+fun Boton_start(model: ModelView, color: Colores, context: Context) {
     var _activo by remember { mutableStateOf(model.estadoLiveData.value!!.start_activo) }
 
     model.estadoLiveData.observe(LocalLifecycleOwner.current) {
         _activo = model.estadoLiveData.value!!.start_activo
     }
-    // variable para el color del boton usado en el LaunchedEffect
+    // variable para el color del botón usado en el LaunchedEffect
     var _color by remember { mutableStateOf(color.color_suave) }
 
     LaunchedEffect(_activo) {
         Log.d("Start_btn", "LaunchedEffect - Estado: ${_activo}")
-        // solo si el boton está activo parpadea
+        // solo si el botón está activo parpadea
         while (_activo) {
             _color = color.color_suave
             delay(500)
@@ -128,7 +146,6 @@ fun Boton_start(model: ModelView, color: Colores , context: Context) {
 
     Button(onClick = {
         model.crearRandom()
-
     },
         enabled = _activo,
         colors = ButtonDefaults.buttonColors(_color),
