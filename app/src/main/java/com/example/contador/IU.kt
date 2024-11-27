@@ -1,4 +1,5 @@
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.contador.Colores
 import com.example.contador.ModelView
+import kotlinx.coroutines.delay
 
 @Composable
 fun IU(model: ModelView) {
@@ -52,7 +55,7 @@ fun IU(model: ModelView) {
                     .padding(bottom = 16.dp)
             )
 
-            Boton_start(model = model, context = context)
+            Boton_start(model = model, color = Colores.START, context = context)
 
             Row {
                 Boton(model = model, color = Colores.ROJO, context = context)
@@ -103,18 +106,32 @@ fun Boton (model: ModelView, color: Colores, context: Context, position: Int = 0
 }
 
 @Composable
-fun Boton_start(model: ModelView, context: Context) {
+fun Boton_start(model: ModelView, color: Colores , context: Context) {
     var _activo by remember { mutableStateOf(model.estadoLiveData.value!!.start_activo) }
 
     model.estadoLiveData.observe(LocalLifecycleOwner.current) {
         _activo = model.estadoLiveData.value!!.start_activo
     }
+    // variable para el color del boton usado en el LaunchedEffect
+    var _color by remember { mutableStateOf(color.color_suave) }
+
+    LaunchedEffect(_activo) {
+        Log.d("Start_btn", "LaunchedEffect - Estado: ${_activo}")
+        // solo si el boton está activo parpadea
+        while (_activo) {
+            _color = color.color_suave
+            delay(500)
+            _color = color.colorname
+            delay(100)
+        }
+    }
+
     Button(onClick = {
         model.crearRandom()
 
     },
         enabled = _activo,
-        colors = ButtonDefaults.buttonColors(Color.White),
+        colors = ButtonDefaults.buttonColors(_color),
         shape = RoundedCornerShape(5.dp),
         modifier = Modifier
             .width(300.dp)
